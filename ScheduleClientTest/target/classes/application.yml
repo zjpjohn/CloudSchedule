@@ -1,0 +1,8 @@
+schedule:
+   url: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183
+   appName: ClientProd
+   nameSpace: schedule
+   env: prod
+   port: 10223
+server:
+  port: 9092

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjp.schedule.mapper.SystemManagerMapper">
+
+    <resultMap id="SystemManagerMap" type="com.zjp.schedule.domain.SystemManager">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <insert id="addSystemManager" parameterType="com.zjp.schedule.domain.SystemManager" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO system_manager(name,password,create_time,update_time,status)
+        VALUES (#{name},#{password},CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,1)
+    </insert>
+
+    <update id="updateSystemManager" parameterType="com.zjp.schedule.domain.SystemManager">
+        UPDATE system_manager
+        SET
+        <if test="name!=null and name!=''">
+            name=#{name},
+        </if>
+        <if test="password!=null and password!=''">
+            password=#{password},
+        </if>
+        update_time =CURRENT_TIMESTAMP
+        WHERE id=#{id}
+    </update>
+
+    <update id="deleteSystemManager" parameterType="java.lang.Integer">
+        UPDATE system_manager
+        SET status = 0,update_time = CURRENT_TIMESTAMP
+        WHERE id= #{id}
+    </update>
+
+    <select id="getSystemManagerAll" resultMap="SystemManagerMap">
+        SELECT id,name,password,create_time,update_time,status
+        FROM system_manager
+        WHERE status = 1
+    </select>
+
+    <select id="getSystemManagerByName" parameterType="java.lang.String" resultMap="SystemManagerMap">
+       SELECT id,name,password,create_time,update_time,status
+       FROM system_manager
+       WHERE name=#{name} AND status = 1
+    </select>
+</mapper>

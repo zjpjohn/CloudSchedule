@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/login.htm by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:18:23 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分布式调度系统 - 登录</title>
+    <meta name="keywords" content="分布式调度系统">
+    <meta name="description" content="分布式调度系统">
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="/css/bootstrap.min14ed.css?v=3.3.6" type="text/css" rel="stylesheet">
+    <link href="/css/font-awesome.min93e3.css?v=4.4.0" type="text/css" rel="stylesheet">
+    <link href="/css/ui-dialog.css" rel="stylesheet" type="text/css"/>
+
+    <link href="/css/animate.min.css" type="text/css" rel="stylesheet">
+    <link href="/css/style.min862f.css?v=4.1.0" type="text/css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+    <script>if (window.top !== window.self) {
+        window.top.location = window.location;
+    }</script>
+</head>
+
+<body class="gray-bg">
+
+<div class="middle-box text-center loginscreen  animated fadeInDown">
+    <div>
+        <div>
+            <h1 style="margin-left:-30px;" class="logo-name">DJOB</h1>
+        </div>
+        <h3>欢迎使用 DJOB</h3>
+
+        <form id="loginInfo" class="m-t" role="form">
+            <div class="form-group">
+                <input type="text" name="name" class="form-control" placeholder="用户名" required="">
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="密码" required="">
+            </div>
+        </form>
+        <div>
+            <button id="login" type="button" onclick="login()" class="btn btn-primary block full-width m-b">登 录</button>
+            <p class="text-muted text-center"><a href="#">
+                <small>忘记密码了？</small>
+            </a> | <a href="/user/register">注册一个新账号</a>
+            </p>
+        </div>
+    </div>
+</div>
+<script src="/js/jquery.min.js?v=2.1.4"></script>
+<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="/js/dialog-min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+    });
+    //用户登录
+    function login() {
+        $.ajax({
+            type: 'post',
+            url: '/user/verify',
+            data: $("#loginInfo").serialize(),
+            success: function (resp) {
+                if (resp.status == 200) {
+                    window.location.href = resp.data;
+                } else if (resp.status == 500) {
+                    var error = dialog({
+                        //注册用户失败
+                        title: '用户登录失败',
+                        content: resp.message,
+                        width: '200px',
+                        height: '30px',
+                        ok: function () {
+                            return true;
+                        }
+                    });
+                    error.show();
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

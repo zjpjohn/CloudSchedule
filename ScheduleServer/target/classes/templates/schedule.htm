@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <#assign base=request.contextPath />
+    <title>任务分组</title>
+    <meta name="keywords" content="分布式调度系统">
+    <meta name="description" content="分布式调度系统">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="/css/plugins/footable/footable.core.css" rel="stylesheet">
+    <link href="/css/animate.min.css" rel="stylesheet">
+    <link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="/css/ui-dialog.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>任务分组列表</h5>
+                    <div class="ibox-content">
+                        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="8">
+                            <thead>
+                            <tr>
+                                <th>分组名称</th>
+                                <th>应用名称</th>
+                                <th>执行机器</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <#if groupVOs??>
+                                <#list groupVOs as groupVO>
+                                    <tr>
+                                        <td>${groupVO.groupName}</td>
+                                        <td>${groupVO.app}</td>
+                                        <td>
+                                            <select>
+                                                <#if groupVO.machines??>
+                                                    <option>执行机器列表</option>
+                                                    <#list groupVO.machines as machine>
+                                                        <option value="${machine}">${machine}</option>
+                                                    </#list>
+                                                    <#else>
+                                                        <option value="">没有执行机器</option>
+
+                                                </#if>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <button onclick="moreInfo('${groupVO.groupName}')"><i
+                                                    class="fa fa-check text-navy"></i> 查看
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </#list>
+                            </#if>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="5">
+                                    <ul class="pagination pull-right"></ul>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/jquery.min.js?v=2.1.4"></script>
+<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="/js/plugins/footable/footable.all.min.js"></script>
+<script src="/js/content.min.js?v=1.0.0"></script>
+<script src="/js/dialog-min.js"></script>
+<script src="/js/sessionOut.js"></script>
+<script>
+    $(function () {
+    });
+    function moreInfo(groupName) {
+        window.location.href = "/server/tasks/" + groupName;
+    }
+</script>
+</body>
+</html>

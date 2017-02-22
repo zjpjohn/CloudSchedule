@@ -1,0 +1,28 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.zjp.schedule.domain.ScheduleServerProperties",
+      "name": "schedule.server",
+      "type": "com.zjp.schedule.domain.ScheduleServerProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.zjp.schedule.domain.ScheduleServerProperties",
+      "name": "schedule.server.name-space",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.zjp.schedule.domain.ScheduleServerProperties",
+      "name": "schedule.server.url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.zjp.schedule.domain.ScheduleServerProperties",
+      "defaultValue": 0,
+      "name": "schedule.server.worker-group-threads",
+      "type": "java.lang.Integer"
+    }
+  ]
+}

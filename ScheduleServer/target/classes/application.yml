@@ -1,0 +1,36 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: Schedule-Server
+  freemarker:
+          cache: false
+          check-template-location: true
+          content-type: text/html
+          charset: utf-8
+          suffix: .htm
+          template-loader-path: classpath:/templates/
+          request-context-attribute: request
+datasource:
+    url: jdbc:mysql://127.0.0.1:3306/schedule_server?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    username: root
+    password: asdqwe
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    initialSized: 20
+    maxActive: 200
+    maxWait: 60000
+    minIdle: 20
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+schedule:
+    server:
+      nameSpace: schedule
+      url: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183
+      workerGroupThreads: 16

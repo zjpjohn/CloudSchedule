@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <#assign base=request.contextPath />
+    <title>任务分组</title>
+    <meta name="keywords" content="分布式调度系统">
+    <meta name="description" content="分布式调度系统">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="/css/plugins/footable/footable.core.css" rel="stylesheet">
+    <link href="/css/animate.min.css" rel="stylesheet">
+    <link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="/css/ui-dialog.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>任务列表</h5>
+                    <div class="ibox-content">
+                        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="8">
+                            <thead>
+                            <tr>
+                                <th>任务分组</th>
+                                <th>应用名称</th>
+                                <th>任务名称</th>
+                                <th>表达式</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <#list taskVOs as taskVO>
+                                <tr>
+                                    <td>${taskVO.groupName}</td>
+                                    <td>${taskVO.app}</td>
+                                    <td>${taskVO.taskName}</td>
+                                    <td>${taskVO.cron}</td>
+                                    <td>
+                                        <button onclick="startTask('${taskVO.groupName}','${taskVO.taskName}')">
+                                            <i class="fa fa-check text-navy"></i> 开始
+                                        </button>
+                                        <button onclick="pauseTask('${taskVO.groupName}','${taskVO.taskName}')">
+                                            <i class="fa fa-check text-navy"></i> 暂停
+                                        </button>
+                                        <button onclick="deleteTask('${taskVO.groupName}','${taskVO.taskName}')">
+                                            <i class="fa fa-check text-navy"></i> 删除
+                                        </button>
+                                        <button onclick="updateTask('${taskVO.groupName}','${taskVO.taskName}')">
+                                            <i class="fa fa-check text-navy"></i> 更新
+                                        </button>
+                                    </td>
+                                </tr>
+                            </#list>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="5">
+                                    <ul class="pagination pull-right"></ul>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/jquery.min.js?v=2.1.4"></script>
+<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="/js/plugins/footable/footable.all.min.js"></script>
+<script src="/js/content.min.js?v=1.0.0"></script>
+<script src="/js/dialog-min.js"></script>
+<script src="/js/sessionOut.js"></script>
+<script>
+    $(function () {
+    });
+
+    /**
+     * 启动任务
+     * @param groupName
+     * @param taskName
+     */
+    function startTask(groupName, taskName) {
+        var url = "/server/start/" + groupName + "/" + taskName;
+        $.ajax({
+            type: 'post',
+            url: url,
+            success: function (resp) {
+                if (resp.status == 200) {
+                    var success = dialog({
+                        title: '启动成功',
+                        content: resp.message,
+                        width: '200px',
+                        height: '30px',
+                        ok: function () {
+                            window.location.href = "/server/tasks/" + groupName;
+                            return true;
+                        }
+                    });
+                    success.show();
+                } else {
+                    var error = dialog({
+                        title: '删除失败',
+                        content: resp.message,
+                        width: '200px',
+                        height: '30px',
+                        ok: function () {
+                            return true;
+                        }
+                    });
+                    error.show();
+                }
+            }
+        });
+    }
+
+    /**
+     * 暂停任务
+     * @param groupName
+     * @param taskName
+     */
+    function pauseTask(groupName, taskName) {
+        var url = "/server/pause/" + groupName + "/" + taskName;
+        $.ajax({
+            type: 'post',
+            url: url,
+            success: function (resp) {
+                if (resp.status == 200) {
+                    var success = dialog({
+                        title: '暂停成功',
+                        content: resp.message,
+                        width: '200px',
+                        height: '30px',
+                        ok: function () {
+                            window.location.href = "/server/tasks/" + groupName;
+                            return true;
+                        }
+                    });
+                    success.show();
+                } else {
+                    var error = dialog({
+                        title: '删除失败',
+                        content: resp.message,
+                        width: '200px',
+                        height: '30px',
+                        ok: function () {
+                            return true;
+                        }
+                    });
+                    error.show();
+                }
+            }
+        });
+    }
+
+    /**
+     * 删除任务
+     * @param groupName
+     * @param taskName
+     */
+    function deleteTask(groupName, taskName) {
+        var url = "/server/delete/" + groupName + "/" + taskName;
+        $.ajax({
+            type: 'post',
+            url: url,
+            success: function (resp) {
+                if (resp.status == 200) {
+                    var success = dialog({
+                        title: '删除成功',
+                        content: resp.message,
+                        width: '200px',
+                        height: '30px',
+                        ok: function () {
+                            window.location.href = "/server/tasks/" + groupName;
+                            return true;
+                        }
+                    });
+                    success.show();
+                } else {
+                    var error = dialog({
+                        title: '删除失败',
+                        content: resp.message,
+                        width: '200px',
+                        height: '30px',
+                        ok: function () {
+                            return true;
+                        }
+                    });
+                    error.show();
+                }
+            }
+        });
+    }
+
+    /**
+     * 更新任务
+     * @param groupName
+     * @param taskName
+     */
+    function updateTask(groupName, taskName) {
+        var url = "/server/task/" + groupName + "/" + taskName;
+        $.ajax({
+            type: 'post',
+            url: url,
+            success: function (resp) {
+                if (resp.status == 200) {
+                    var success = dialog({
+                        title: '更新任务',
+                        content: '<form role="form" class="form-horizontal" id="fieldRuleForm">' +
+                        '<div class="form-group">' +
+                        '   <label for="ruleName" class="col-sm-3 control-label">任务分组:</label>' +
+                        '   <div class="col-sm-8">' +
+                        '     <input type="hidden" name="groupName" value="' + resp.data.groupName + '">' +
+                        '     <input type="text" id="groupName" name="groupName" class="form-control" value="' + resp.data.groupName + '" disabled>' +
+                        '   </div>' +
+                        '</div>' +
+                        '<div class="form-group">' +
+                        '   <label for="ruleValue" class="col-sm-3 control-label">任务名称:</label>' +
+                        '   <div class="col-sm-8">' +
+                        '     <input type="hidden" name="taskName" class="form-control"  value="' + resp.data.taskName + '">' +
+                        '     <input type="text" id="taskName" class="form-control"  value="' + resp.data.taskName + '" disabled>' +
+                        '   </div>' +
+                        '</div>' +
+                        '<div class="form-group">' +
+                        '   <label for="fieldBusiness" class="col-sm-3 control-label">表达式:</label>' +
+                        '   <div class="col-sm-8">' +
+                        '     <input type="text" id="cron" name="cron" class="form-control m-b"  value="' + resp.data.cron + '">' +
+                        '   </div>' +
+                        '</div>' +
+                        '</form>',
+                        width: 600,
+                        height: 200,
+                        ok: function () {
+                            var url = "/server/update";
+                            $.ajax({
+                                type: 'post',
+                                url: url,
+                                data: $("#fieldRuleForm").serialize(),
+                                async: false,
+                                success: function (data) {
+                                    if (data.status == 200) {
+                                        var success = dialog({
+                                            title: '更新字段规则成功',
+                                            content: data.message,
+                                            width: '200px',
+                                            height: '30px',
+                                            ok: function () {
+                                                window.location.href = "/server/tasks/" + groupName;
+                                                return true;
+                                            }
+                                        });
+                                        success.show();
+                                    } else {
+                                        var error = dialog({
+                                            title: '更新字段规则失败',
+                                            content: data.message,
+                                            width: '200px',
+                                            height: '30px',
+                                            ok: function () {
+                                                return true;
+                                            }
+                                        });
+                                        error.show();
+                                    }
+                                }
+                            });
+                        }
+                    });
+                    success.show();
+                } else {
+                    var error = dialog({
+                        title: '加载失败',
+                        content: resp.message,
+                        width: '200px',
+                        height: '30px',
+                        ok: function () {
+                            return true;
+                        }
+                    });
+                    error.show();
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>
