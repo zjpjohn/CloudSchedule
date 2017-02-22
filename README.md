@@ -7,7 +7,6 @@
 @Configuration
 @EnableQSchedule
 public class ScheduleConfig {
-
     @Resource
     private Environment env;
 
@@ -24,10 +23,8 @@ public class ScheduleConfig {
 }
 
 2.使用注解进行定时任务操作
-
 @QSchedule()
 public class ScheduleClientDemo {
-
     @Schedule(cron = "*/10 * * * * ?")
     public void schedule1() {
         System.out.println("测试用例1");
@@ -39,4 +36,7 @@ public class ScheduleClientDemo {
     }
 }
 
-后续版本将引入leader选举，调度器进行无线扩容，对定时任务的调用进行负载均衡，平滑的在不同调度器上运行
+
+后续版本将主要做两方面：
+1.引入leader选举，调度器进行无线扩容，对定时任务的调用进行负载均衡，平滑的在不同调度器上运行
+2.调度器进行优化，是定时任务执行更高效
