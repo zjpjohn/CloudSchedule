@@ -9,6 +9,7 @@
 @Configuration
 @EnableQSchedule
 public class ScheduleConfig {
+    
     @Resource
     private Environment env;
 
@@ -29,6 +30,7 @@ public class ScheduleConfig {
 
 @QSchedule()
 public class ScheduleClientDemo {
+    
     @Schedule(cron = "*/10 * * * * ?")
     public void schedule1() {
         System.out.println("测试用例1");
@@ -39,6 +41,7 @@ public class ScheduleClientDemo {
         System.out.println("测试用例2");
     }
 }
+server端主要是进行管理和任务调度
 
 
 后续版本将主要做两方面：
