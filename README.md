@@ -4,6 +4,7 @@
 
 客户端使用只需作如下配置：
 1.启用该调度器
+
 @Configuration
 
 @EnableQSchedule
