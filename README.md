@@ -43,7 +43,7 @@ public class ScheduleClientDemo {
 }
 server端主要是进行管理和任务调度
 
-
+![image](https://github.com/zjpjohn/CloudSchedule/blob/master/img/jietu3.png)
 后续版本将主要做两方面：
 1.引入leader选举，调度器进行无线扩容，对定时任务的调用进行负载均衡，平滑的在不同调度器上运行
 2.调度器进行优化，是定时任务执行更高效
